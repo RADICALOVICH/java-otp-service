@@ -1,0 +1,38 @@
+# Локальные материалы (ТЗ, исходные данные)
+inputs/
+
+# Гайды и заметки, которые генерирует Claude по запросу
+docs/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build artifacts
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / secrets
+.env
+*.env.local
+application-local.properties
+application-local.yml
+
+# Gradle
+.gradle/
+
+# Maven
+.mvn/
