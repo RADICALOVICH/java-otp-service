@@ -1,7 +1,5 @@
-package com.vpoluboyarov.otp.dao;
+package com.vpoluboyarov.otp.user;
 
-import com.vpoluboyarov.otp.model.Role;
-import com.vpoluboyarov.otp.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

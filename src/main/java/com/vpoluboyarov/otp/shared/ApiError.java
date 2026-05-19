@@ -1,4 +1,4 @@
-package com.vpoluboyarov.otp.dto;
+package com.vpoluboyarov.otp.shared;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

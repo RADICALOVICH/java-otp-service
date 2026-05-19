@@ -1,8 +1,6 @@
-package com.vpoluboyarov.otp.controller;
+package com.vpoluboyarov.otp.auth;
 
-import com.vpoluboyarov.otp.dto.RegisterRequest;
-import com.vpoluboyarov.otp.dto.UserResponse;
-import com.vpoluboyarov.otp.service.AuthService;
+import com.vpoluboyarov.otp.user.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

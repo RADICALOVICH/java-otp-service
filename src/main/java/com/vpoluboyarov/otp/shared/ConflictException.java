@@ -1,4 +1,4 @@
-package com.vpoluboyarov.otp.exception;
+package com.vpoluboyarov.otp.shared;
 
 public class ConflictException extends RuntimeException {
 

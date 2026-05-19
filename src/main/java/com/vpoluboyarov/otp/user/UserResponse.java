@@ -1,6 +1,5 @@
-package com.vpoluboyarov.otp.dto;
+package com.vpoluboyarov.otp.user;
 
-import com.vpoluboyarov.otp.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

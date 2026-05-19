@@ -1,6 +1,6 @@
-package com.vpoluboyarov.otp.dto;
+package com.vpoluboyarov.otp.auth;
 
-import com.vpoluboyarov.otp.model.Role;
+import com.vpoluboyarov.otp.user.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

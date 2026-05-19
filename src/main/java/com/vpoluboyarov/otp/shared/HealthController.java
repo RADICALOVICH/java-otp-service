@@ -1,4 +1,4 @@
-package com.vpoluboyarov.otp.controller;
+package com.vpoluboyarov.otp.shared;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

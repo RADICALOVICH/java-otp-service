@@ -1,4 +1,4 @@
-package com.vpoluboyarov.otp.model;
+package com.vpoluboyarov.otp.user;
 
 public enum Role {
     ADMIN,

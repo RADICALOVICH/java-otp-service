@@ -1,14 +1,15 @@
-package com.vpoluboyarov.otp.service;
+package com.vpoluboyarov.otp.auth;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.vpoluboyarov.otp.dao.UserDao;
-import com.vpoluboyarov.otp.dto.RegisterRequest;
-import com.vpoluboyarov.otp.dto.UserResponse;
-import com.vpoluboyarov.otp.exception.ConflictException;
-import com.vpoluboyarov.otp.model.Role;
-import com.vpoluboyarov.otp.model.User;
+import com.vpoluboyarov.otp.shared.ConflictException;
+import com.vpoluboyarov.otp.user.Role;
+import com.vpoluboyarov.otp.user.User;
+import com.vpoluboyarov.otp.user.UserDao;
+import com.vpoluboyarov.otp.user.UserResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AuthService {
 
@@ -21,10 +22,14 @@ public class AuthService {
     }
 
     public UserResponse register(RegisterRequest request) {
+        log.info("Register attempt: login='{}', role={}", request.getLogin(), request.getRole());
+
         if (userDao.findByLogin(request.getLogin()).isPresent()) {
+            log.warn("Register rejected: login '{}' already taken", request.getLogin());
             throw new ConflictException("login already taken");
         }
         if (request.getRole() == Role.ADMIN && userDao.adminExists()) {
+            log.warn("Register rejected: admin already exists (attempt by '{}')", request.getLogin());
             throw new ConflictException("admin already exists");
         }
 
@@ -41,6 +46,7 @@ public class AuthService {
                 .build();
 
         Long id = userDao.insert(user);
+        log.info("User registered: id={}, login='{}', role={}", id, user.getLogin(), user.getRole());
 
         return UserResponse.builder()
                 .id(id)
