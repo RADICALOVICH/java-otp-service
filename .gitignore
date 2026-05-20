@@ -24,6 +24,9 @@ out/
 *.log
 logs/
 
+# OTP file channel output
+otp-codes.txt
+
 # OS
 .DS_Store
 Thumbs.db

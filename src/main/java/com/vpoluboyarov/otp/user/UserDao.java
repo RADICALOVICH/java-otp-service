@@ -51,6 +51,11 @@ public class UserDao {
         return jdbcTemplate.query(sql, ROW_MAPPER, login).stream().findFirst();
     }
 
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        return jdbcTemplate.query(sql, ROW_MAPPER, id).stream().findFirst();
+    }
+
     public boolean adminExists() {
         String sql = "SELECT EXISTS(SELECT 1 FROM users WHERE role = 'ADMIN')";
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, Boolean.class));
