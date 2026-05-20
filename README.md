@@ -198,12 +198,3 @@ curl -X POST http://localhost:8080/api/otp/validate \
   -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
   -d "{\"operationId\":\"demo-1\",\"code\":\"$CODE\"}"
 ```
-
-## Что отложено
-
-- `PATCH /api/me`, `POST /api/me/change-password` — обновление профиля и смены пароля.
-- Юнит/интеграционные тесты — фокус был на работающем функционале.
-- Пагинация `GET /api/admin/users`.
-- Валидация формата email/phone (`@Email`, regex для телефона).
-- Rate-limit на `/auth/login` и `/otp/validate`.
-- Refresh-токены.
