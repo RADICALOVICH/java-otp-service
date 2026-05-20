@@ -1,6 +1,6 @@
 # OTP Service
 
-Backend-сервис защиты операций одноразовыми кодами. Учебный кейс **Promo IT**.
+Backend-сервис защиты операций одноразовыми кодами.
 
 Клиент дёргает API: «начни операцию `X`, выдай код юзеру», получает код по выбранному каналу, отдаёт обратно для подтверждения.
 
@@ -49,6 +49,14 @@ src/main/java/com/vpoluboyarov/otp/
 git clone <repo-url>
 cd Java-OTP
 cp .env.example .env
+
+# Конфиги каналов. Без них app не стартует (Spring @PropertySource требует файлы).
+# В .example уже заданы дефолты, которых хватает чтобы app поднялся;
+# для реальной рассылки по EMAIL/TELEGRAM подставить креды — см. «Настройка каналов».
+cp src/main/resources/email.properties.example    src/main/resources/email.properties
+cp src/main/resources/sms.properties.example      src/main/resources/sms.properties
+cp src/main/resources/telegram.properties.example src/main/resources/telegram.properties
+
 docker compose up -d
 curl http://localhost:8080/api/ping       # → pong
 ```
@@ -162,7 +170,7 @@ docker compose exec app cat /app/otp-codes.txt
 5. При регистрации юзера передавать `telegramChatId`.
 6. `docker compose up -d --build app`.
 
-**SMS** — SMPPsim. Уже включён сервисом в `docker-compose.yml`, ничего не делать. Web-UI с принятыми SMS — `http://localhost:8881`.
+**SMS** — SMPPsim. Дефолты из `sms.properties.example` подходят к контейнеру `smppsim` из `docker-compose.yml` — после копирования файла (шаг в «Запуск») работает без правок.
 
 ## Полный сценарий теста
 
