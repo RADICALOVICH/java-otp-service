@@ -1,0 +1,10 @@
+# Шаблон конфигурации SMPP-канала. Скопируй в sms.properties.
+# Каждое значение можно перекрыть env-переменной (см. ключ перед двоеточием).
+# Дефолты подходят для локального SMPPsim (порт 2775, system_id smppclient1).
+
+smpp.host=${SMPP_HOST:localhost}
+smpp.port=${SMPP_PORT:2775}
+smpp.system_id=${SMPP_SYSTEM_ID:smppclient1}
+smpp.password=${SMPP_PASSWORD:password}
+smpp.system_type=${SMPP_SYSTEM_TYPE:OTP}
+smpp.source_addr=${SMPP_SOURCE_ADDR:OTPService}

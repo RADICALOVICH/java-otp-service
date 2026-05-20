@@ -1,0 +1,33 @@
+# Build artifacts
+target/
+.gradle/
+.mvn/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Git
+.git/
+.gitignore
+
+# Локальные материалы и заметки
+inputs/
+docs/
+project-notes/
+
+# Env
+.env
+.env.local
+
+# OS
+.DS_Store
+
+# OTP runtime file
+otp-codes.txt
+
+# Docker itself
+Dockerfile
+.dockerignore
+docker-compose.yml

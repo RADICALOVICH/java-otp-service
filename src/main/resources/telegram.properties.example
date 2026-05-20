@@ -1,0 +1,6 @@
+# Шаблон конфигурации Telegram-канала. Скопируй в telegram.properties.
+# telegram.properties — в .gitignore.
+# Любое значение можно перекрыть env-переменной (ключ перед двоеточием).
+
+telegram.bot.token=${TELEGRAM_BOT_TOKEN:YOUR_BOT_TOKEN_FROM_BOTFATHER}
+telegram.api.url=${TELEGRAM_API_URL:https://api.telegram.org}

@@ -17,5 +17,32 @@ services:
       timeout: 3s
       retries: 10
 
+  smppsim:
+    image: evicertia/smppsim
+    container_name: otp-smppsim
+    restart: unless-stopped
+    ports:
+      - "2775:2775"   # SMPP — клиент-сервер протокол
+      - "8881:88"     # web-UI (88 в контейнере → 8881 на хосте, чтобы не конфликтовать с привилегированным портом)
+
+  app:
+    build: .
+    container_name: otp-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # БД: внутри compose-сети адрес — имя сервиса, не localhost
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      # SMS-канал: в docker сети SMPPsim доступен по имени сервиса
+      SMPP_HOST: smppsim
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   pgdata:

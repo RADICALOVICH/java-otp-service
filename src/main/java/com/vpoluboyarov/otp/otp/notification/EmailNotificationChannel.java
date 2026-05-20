@@ -10,45 +10,43 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
 import java.util.Properties;
 
 @Slf4j
 @Component
+@PropertySource("classpath:email.properties")
 public class EmailNotificationChannel implements NotificationChannel {
 
-    private final String username;
-    private final String password;
     private final String fromEmail;
     private final Session session;
 
-    public EmailNotificationChannel() {
-        Properties config = loadConfig();
-        this.username = config.getProperty("email.username");
-        this.password = config.getProperty("email.password");
-        this.fromEmail = config.getProperty("email.from");
-        this.session = Session.getInstance(config, new Authenticator() {
+    public EmailNotificationChannel(
+            @Value("${email.username}") String username,
+            @Value("${email.password}") String password,
+            @Value("${email.from}") String fromEmail,
+            @Value("${mail.smtp.host}") String smtpHost,
+            @Value("${mail.smtp.port}") String smtpPort,
+            @Value("${mail.smtp.auth}") String smtpAuth,
+            @Value("${mail.smtp.starttls.enable}") String smtpStarttls) {
+
+        this.fromEmail = fromEmail;
+
+        Properties mailProps = new Properties();
+        mailProps.put("mail.smtp.host", smtpHost);
+        mailProps.put("mail.smtp.port", smtpPort);
+        mailProps.put("mail.smtp.auth", smtpAuth);
+        mailProps.put("mail.smtp.starttls.enable", smtpStarttls);
+
+        this.session = Session.getInstance(mailProps, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
-    }
-
-    private Properties loadConfig() {
-        Properties props = new Properties();
-        try (InputStream is = EmailNotificationChannel.class.getClassLoader()
-                .getResourceAsStream("email.properties")) {
-            if (is == null) {
-                throw new IllegalStateException("email.properties not found in classpath");
-            }
-            props.load(is);
-            return props;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load email configuration", e);
-        }
     }
 
     @Override
