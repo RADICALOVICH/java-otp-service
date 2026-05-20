@@ -1,0 +1,11 @@
+# Шаблон конфигурации SMTP. Скопируй в email.properties и подставь реальные значения.
+# email.properties в gitignore — реальные креды никогда не попадают в репозиторий.
+
+email.username=your_email@example.com
+email.password=your_email_app_password
+email.from=your_email@example.com
+
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+mail.smtp.auth=true
+mail.smtp.starttls.enable=true

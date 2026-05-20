@@ -37,6 +37,11 @@ Thumbs.db
 application-local.properties
 application-local.yml
 
+# Локальные конфиги каналов с реальными кредами (рядом лежат *.example)
+src/main/resources/email.properties
+src/main/resources/sms.properties
+src/main/resources/telegram.properties
+
 # Gradle
 .gradle/
 
