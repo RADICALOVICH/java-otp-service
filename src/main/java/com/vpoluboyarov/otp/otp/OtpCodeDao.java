@@ -72,4 +72,13 @@ public class OtpCodeDao {
                 """;
         return jdbcTemplate.update(sql, codeId);
     }
+
+    public int markExpired() {
+        String sql = """
+                UPDATE otp_codes
+                SET status = 'EXPIRED', updated_at = now()
+                WHERE status = 'ACTIVE' AND expires_at <= now()
+                """;
+        return jdbcTemplate.update(sql);
+    }
 }
