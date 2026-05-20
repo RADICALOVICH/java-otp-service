@@ -21,4 +21,17 @@ public class UserResponse {
     private String telegramChatId;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public static UserResponse from(User user) {
+        return UserResponse.builder()
+                .id(user.getId())
+                .login(user.getLogin())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .telegramChatId(user.getTelegramChatId())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
+    }
 }

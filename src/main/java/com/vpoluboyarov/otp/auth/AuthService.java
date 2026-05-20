@@ -2,6 +2,7 @@ package com.vpoluboyarov.otp.auth;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.vpoluboyarov.otp.shared.ConflictException;
+import com.vpoluboyarov.otp.shared.UnauthorizedException;
 import com.vpoluboyarov.otp.user.Role;
 import com.vpoluboyarov.otp.user.User;
 import com.vpoluboyarov.otp.user.UserDao;
@@ -16,9 +17,11 @@ public class AuthService {
     private static final int BCRYPT_COST = 10;
 
     private final UserDao userDao;
+    private final JwtService jwtService;
 
-    public AuthService(UserDao userDao) {
+    public AuthService(UserDao userDao, JwtService jwtService) {
         this.userDao = userDao;
+        this.jwtService = jwtService;
     }
 
     public UserResponse register(RegisterRequest request) {
@@ -46,15 +49,37 @@ public class AuthService {
                 .build();
 
         Long id = userDao.insert(user);
+        user.setId(id);
         log.info("User registered: id={}, login='{}', role={}", id, user.getLogin(), user.getRole());
 
-        return UserResponse.builder()
-                .id(id)
-                .login(user.getLogin())
-                .role(user.getRole())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .telegramChatId(user.getTelegramChatId())
+        return UserResponse.from(user);
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        log.info("Login attempt: login='{}'", request.getLogin());
+
+        User user = userDao.findByLogin(request.getLogin())
+                .orElseThrow(() -> {
+                    log.warn("Login rejected: unknown login '{}'", request.getLogin());
+                    return new UnauthorizedException("invalid credentials");
+                });
+
+        boolean passwordOk = BCrypt.verifyer()
+                .verify(request.getPassword().toCharArray(), user.getPasswordHash())
+                .verified;
+
+        if (!passwordOk) {
+            log.warn("Login rejected: bad password for '{}'", request.getLogin());
+            throw new UnauthorizedException("invalid credentials");
+        }
+
+        JwtService.TokenIssue token = jwtService.generate(user);
+        log.info("Login ok: id={}, login='{}'", user.getId(), user.getLogin());
+
+        return LoginResponse.builder()
+                .token(token.token())
+                .expiresAt(token.expiresAt())
+                .user(UserResponse.from(user))
                 .build();
     }
 }
