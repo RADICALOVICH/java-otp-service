@@ -25,4 +25,16 @@ public class OtpConfigDao {
         String sql = "SELECT code_length, ttl_seconds, updated_at FROM otp_config WHERE id = 1";
         return jdbcTemplate.queryForObject(sql, ROW_MAPPER);
     }
+
+    public OtpConfig update(Integer codeLength, Integer ttlSeconds) {
+        String sql = """
+                UPDATE otp_config
+                SET code_length = COALESCE(?, code_length),
+                    ttl_seconds = COALESCE(?, ttl_seconds),
+                    updated_at = now()
+                WHERE id = 1
+                RETURNING code_length, ttl_seconds, updated_at
+                """;
+        return jdbcTemplate.queryForObject(sql, ROW_MAPPER, codeLength, ttlSeconds);
+    }
 }

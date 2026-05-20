@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -59,5 +60,15 @@ public class UserDao {
     public boolean adminExists() {
         String sql = "SELECT EXISTS(SELECT 1 FROM users WHERE role = 'ADMIN')";
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, Boolean.class));
+    }
+
+    public List<User> findAllNonAdmins() {
+        String sql = "SELECT * FROM users WHERE role <> 'ADMIN' ORDER BY id";
+        return jdbcTemplate.query(sql, ROW_MAPPER);
+    }
+
+    public int deleteById(Long id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
     }
 }
